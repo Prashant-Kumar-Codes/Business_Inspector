@@ -1,6 +1,3 @@
-from extensions import *
+from .extensions import *
 
-conn = dbConn()
-print(conn)
-cursor = conn.cursor(dict=True)
-print(cursor)
+inspect_auth = Blueprint('inspect_auth', __name__)
