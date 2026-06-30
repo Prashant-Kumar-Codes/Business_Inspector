@@ -1,12 +1,324 @@
-{%extend "base.html"%}
-{%block title%}Business Inspector - Homepage{%endblock%}
+{% extends "base.html" %}
+{% block title %}Business Inspector — Customer Intelligence Platform{% endblock %}
 
-{%block style%}
-    {{super()}}
-    <link rel="stylesheet" href="{{url_for('static', filename='css/homepage.css')}}">
-{%endblock%}
+{% block style %}
+    {{ super() }}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
+{% endblock %}
 
-{%block content%}
-    {{super()}}
-    
-{%endblock%}
+{% block content %}
+
+<!-- Particle Background -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar" id="navbar">
+    <div class="container">
+        <a href="/" class="nav-logo">
+            <span class="logo-icon">BI</span>
+            Business Inspector
+        </a>
+        <div class="nav-links" id="nav-links">
+            <a href="#about">About</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#tools">Tech Stack</a>
+            <a href="#features">Features</a>
+            <a href="#contact" class="nav-cta">Get Started</a>
+        </div>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero" id="about">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="pulse"></span>
+                AI-Powered Analytics
+            </div>
+            <h1>Customer Intelligence,<br><span class="gradient-text">Reimagined.</span></h1>
+            <p>
+                A full-stack ML platform that transforms raw e-commerce transaction data into 
+                actionable customer segments, churn predictions, and lifetime value forecasts — 
+                all exposed through a REST API &amp; dashboard.
+            </p>
+            <div class="hero-buttons">
+                <a href="#how-it-works" class="btn-primary">Explore Platform</a>
+                <a href="#tools" class="btn-outline">View Tech Stack</a>
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <img src="{{ url_for('static', filename='images/hero-ai-visual.png') }}" alt="AI models visualization dashboard">
+        </div>
+    </div>
+</section>
+
+<!-- ========== STATS BAR ========== -->
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-card reveal">
+            <div class="stat-item">
+                <div class="stat-number" data-count="3" data-suffix=" Models">3 Models</div>
+                <div class="stat-label">Unsupervised + Supervised + Deep Learning</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-count="6" data-suffix="-Month">6-Month</div>
+                <div class="stat-label">Lifetime Value Forecasts</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" data-count="100" data-suffix="%">100%</div>
+                <div class="stat-label">Production-Grade Codebase</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== HOW IT WORKS ========== -->
+<section class="section section-dark" id="how-it-works">
+    <div class="container">
+        <div class="section-header reveal">
+            <span class="section-tag">The Pipeline</span>
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">
+                Three ML disciplines — one unified system. All running on real e-commerce data 
+                from the UCI Machine Learning Repository.
+            </p>
+        </div>
+
+        <div class="steps-grid">
+            <!-- Segmentation -->
+            <div class="step-card reveal reveal-delay-1">
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><line x1="12" y1="9" x2="12" y2="5"/><line x1="9.5" y1="13.5" x2="6.5" y2="17.5"/><line x1="14.5" y1="13.5" x2="17.5" y2="17.5"/></svg>
+                </div>
+                <h3>Customer Segmentation</h3>
+                <p>
+                    Unsupervised learning groups customers into Champions, Loyal, At Risk, and Dormant 
+                    segments using RFM analysis and clustering.
+                </p>
+                <div class="step-tech">
+                    <span>scikit-learn</span>
+                    <span>K-Means</span>
+                    <span>RFM</span>
+                </div>
+            </div>
+
+            <!-- Churn -->
+            <div class="step-card reveal reveal-delay-2">
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <h3>Churn Prediction</h3>
+                <p>
+                    Supervised classification identifies customers about to leave. Uses PR-AUC 
+                    with SMOTE for handling class imbalance properly.
+                </p>
+                <div class="step-tech">
+                    <span>XGBoost</span>
+                    <span>LightGBM</span>
+                    <span>SMOTE</span>
+                </div>
+            </div>
+
+            <!-- LTV -->
+            <div class="step-card reveal reveal-delay-3">
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <h3>Lifetime Value Forecasts</h3>
+                <p>
+                    Neural network regression predicts how much each customer will spend over 
+                    the next 6 months with temporal train/test splits.
+                </p>
+                <div class="step-tech">
+                    <span>TensorFlow</span>
+                    <span>Keras</span>
+                    <span>Deep Learning</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== TOOLS & TECH ========== -->
+<section class="section section-gray" id="tools">
+    <div class="container">
+        <div class="section-header reveal">
+            <span class="section-tag">Tech Stack</span>
+            <h2 class="section-title">Built With Modern Tools</h2>
+            <p class="section-subtitle">
+                Production-grade architecture — not a Jupyter notebook.
+            </p>
+        </div>
+
+        <div class="tools-grid">
+            <div class="tool-card reveal reveal-delay-1">
+                <div class="tool-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                </div>
+                <h3>ML &amp; Data Science</h3>
+                <p>Full stack machine learning with proper MLOps practices.</p>
+                <ul class="tool-list">
+                    <li>Python 3.11+</li>
+                    <li>pandas &amp; numpy</li>
+                    <li>scikit-learn, XGBoost, LightGBM</li>
+                    <li>TensorFlow / Keras</li>
+                    <li>SMOTE &amp; class weights</li>
+                </ul>
+            </div>
+
+            <div class="tool-card reveal reveal-delay-2">
+                <div class="tool-icon">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                </div>
+                <h3>Backend &amp; API</h3>
+                <p>Flask-powered REST API with authentication and validation.</p>
+                <ul class="tool-list">
+                    <li>Flask + Blueprints</li>
+                    <li>SQLAlchemy ORM</li>
+                    <li>Marshmallow validation</li>
+                    <li>JWT authentication</li>
+                    <li>PostgreSQL database</li>
+                </ul>
+            </div>
+
+            <div class="tool-card reveal reveal-delay-3">
+                <div class="tool-icon">
+                    <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                </div>
+                <h3>Deployment &amp; DevOps</h3>
+                <p>Cloud-deployed with containerized infrastructure.</p>
+                <ul class="tool-list">
+                    <li>Docker + docker-compose</li>
+                    <li>Gunicorn server</li>
+                    <li>Render (app hosting)</li>
+                    <li>Neon (managed Postgres)</li>
+                    <li>pytest testing</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== FEATURES ========== -->
+<section class="section section-dark" id="features">
+    <div class="container">
+        <div class="section-header reveal">
+            <span class="section-tag">Why It Matters</span>
+            <h2 class="section-title">Enterprise-Grade Features</h2>
+            <p class="section-subtitle">
+                Everything you need to understand, predict, and act on customer behavior.
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card reveal reveal-delay-1">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                </div>
+                <div>
+                    <h3>Three ML Disciplines</h3>
+                    <p>Combines unsupervised + supervised + deep learning in one real, deployed system.</p>
+                </div>
+            </div>
+            <div class="feature-card reveal reveal-delay-2">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                </div>
+                <div>
+                    <h3>Proper MLOps</h3>
+                    <p>Model versioning, temporal splits, and PR-AUC metrics — not just accuracy.</p>
+                </div>
+            </div>
+            <div class="feature-card reveal reveal-delay-3">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+                </div>
+                <div>
+                    <h3>Cloud Deployed</h3>
+                    <p>Render + Neon with Docker, migrations, JWT auth, and caching out of the box.</p>
+                </div>
+            </div>
+            <div class="feature-card reveal reveal-delay-1">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                </div>
+                <div>
+                    <h3>REST API + Dashboard</h3>
+                    <p>All predictions stored in PostgreSQL and exposed via a clean API and visual dashboard.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section class="cta-section" id="contact">
+    <div class="cta-content reveal">
+        <h2>Ready to Inspect<br>Your Business?</h2>
+        <p>Upload your transaction data and let our ML pipeline segment customers, predict churn, and forecast lifetime value — automatically.</p>
+        <a href="#" class="btn-primary">Start Inspecting →</a>
+    </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>
+                    <span class="logo-icon" style="width:28px;height:28px;border-radius:6px;background:#00c853;display:inline-grid;place-items:center;font-size:.65rem;font-weight:900;color:#000">BI</span>
+                    Business Inspector
+                </h3>
+                <p>A customer intelligence platform powered by three ML disciplines. Built to ship, not to demo.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#tools">Tech Stack</a>
+                <a href="#features">Features</a>
+                <a href="#">Documentation</a>
+            </div>
+            <div class="footer-col">
+                <h4>ML Models</h4>
+                <a href="#">Segmentation</a>
+                <a href="#">Churn Prediction</a>
+                <a href="#">LTV Forecast</a>
+                <a href="#">API Reference</a>
+            </div>
+            <div class="footer-col">
+                <h4>Dataset</h4>
+                <a href="#">Online Retail II</a>
+                <a href="#">UCI Repository</a>
+                <a href="#">Data Schema</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Business Inspector. All rights reserved.</span>
+            <div class="footer-socials">
+                <a href="#" aria-label="GitHub">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                </a>
+                <a href="#" aria-label="LinkedIn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </a>
+                <a href="#" aria-label="Twitter">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='js/homepage.js') }}"></script>
+{% endblock %}
