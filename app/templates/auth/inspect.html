@@ -1,4 +1,4 @@
-{%extend "base.html"%}
+{%extends "base.html"%}
 {%block title%}Inspect Data to Visualizations{%endblock%}
 
 {%block style%}
@@ -8,5 +8,6 @@
 
 {%block content%}
     {{super()}}
+    <h1><a href="{{url_for('home_auth.homepage')}}">INSPECTOR PAGE</a></h1>
     
 {%endblock%}
