@@ -26,7 +26,7 @@
             <a href="#how-it-works">How It Works</a>
             <a href="#tools">Tech Stack</a>
             <a href="#features">Features</a>
-            <a href="#contact" class="nav-cta">Get Started</a>
+            <a href="{{url_for('inspect_auth.inspect', username= session.user or 'guest')}}" class="nav-cta">Get Started</a>
         </div>
         <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
             <span></span><span></span><span></span>
@@ -36,6 +36,10 @@
 
 <!-- ========== HERO ========== -->
 <section class="hero" id="about">
+    <video autoplay muted loop playsinline class="hero-video-bg">
+        <source src="{{ url_for('static', filename='videos/hero_bg.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
     <div class="container">
         <div class="hero-content">
             <div class="hero-badge">
@@ -52,10 +56,6 @@
                 <a href="#how-it-works" class="btn-primary">Explore Platform</a>
                 <a href="#tools" class="btn-outline">View Tech Stack</a>
             </div>
-        </div>
-
-        <div class="hero-visual">
-            <img src="{{ url_for('static', filename='images/hero-ai-visual.png') }}" alt="AI models visualization dashboard">
         </div>
     </div>
 </section>
