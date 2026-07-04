@@ -1,13 +1,157 @@
-{%extends "base.html"%}
-{%block title%}Inspect Data to Visualizations{%endblock%}
+{% extends "base.html" %}
+{% block title %}Inspect Dataset & Analytics{% endblock %}
 
-{%block style%}
-    {{super()}}
-    <link rel="stylesheet" href="{{url_for('static', filename='css/inspect.css')}}">
-{%endblock%}
+{% block style %}
+    {{ super() }}
+    <!-- Google Fonts for modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Specific CSS for the inspect page -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/inspect.css') }}">
+{% endblock %}
 
-{%block content%}
-    {{super()}}
-    <h1><a href="{{url_for('home_auth.homepage')}}">INSPECTOR PAGE</a></h1>
-    
-{%endblock%}
+{% block content %}
+    {{ super() }}
+
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="{{ url_for('home_auth.homepage') }}" class="nav-logo">
+                <span class="logo-icon">BI</span>
+                Business Inspector
+            </a>
+            <div class="nav-links" id="nav-links">
+                <a href="{{ url_for('home_auth.homepage') }}">Home</a>
+                <a href="{{ url_for('inspect_auth.inspect', username=session.user or 'guest') }}" class="active">Inspect</a>
+                <!-- Optional logic for login/logout based on session -->
+                {% if session.user %}
+                    <a href="#" class="nav-cta">Logout</a>
+                {% else %}
+                    <a href="#" class="nav-cta">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO & UPLOAD SECTION ========== -->
+    <section class="hero" id="upload-section">
+        <div class="container hero-container">
+            <h1>Upload Dataset for <span class="gradient-text">Analysis</span></h1>
+            <p>Upload your CSV or Excel dataset to generate real-time analytics and visualizations.</p>
+            
+            <!-- Drag and drop form area -->
+            <form action="/inspect/upload_dataset" method="POST" id="upload-form" class="upload-form" enctype="multipart/form-data">
+                <div class="drop-zone" id="drop-zone">
+                    <div class="upload-icon">
+                        <!-- Upload SVG icon -->
+                        <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                    </div>
+                    <p>Drag & drop your file here, or <span class="browse-link">browse</span></p>
+                    <input type="file" id="file-input" name="dataset" accept=".csv, .xlsx, .xls" hidden>
+                </div>
+                <button type="submit" class="btn-primary" id="upload-btn" disabled>Start Analysis</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ========== PROCESSING ANIMATION (Hidden by default) ========== -->
+    <section class="processing-section hidden" id="processing-section">
+        <div class="container processing-container">
+            <div class="wave-text">
+                <!-- Waving letters for 'Processing Data.....' -->
+                <span>P</span><span>r</span><span>o</span><span>c</span><span>e</span><span>s</span><span>s</span><span>i</span><span>n</span><span>g</span><span>&nbsp;</span><span>D</span><span>a</span><span>t</span><span>a</span><span>.</span><span>.</span><span>.</span><span>.</span><span>.</span>
+            </div>
+            <p class="processing-subtext">Our models are crunching your numbers. This might take a moment.</p>
+        </div>
+    </section>
+
+    <!-- ========== RESULTS SECTION (Hidden by default) ========== -->
+    <div class="results-wrapper hidden" id="results-section">
+        
+        <!-- ========== ANALYTICS TABLE ========== -->
+        <section class="analytics-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Dataset Analytics</h2>
+                    <p class="section-subtitle">Overview of your data processed by our pipeline.</p>
+                </div>
+                <!-- Container for Pandas dataframe HTML output -->
+                <div class="dataframe-container" id="dataframe-container">
+                    <!-- The pandas .to_html() output will be injected here. 
+                         For now, it's empty awaiting backend response. -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== VISUALIZATIONS ========== -->
+        <section class="visualizations-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Visual Insights</h2>
+                    <p class="section-subtitle">Deep dive into patterns and distributions.</p>
+                </div>
+                
+                <!-- Grid for 6 visual graphs -->
+                <div class="charts-grid">
+                    <!-- Graph 1 -->
+                    <div class="chart-card">
+                        <h3>Distribution Analysis</h3>
+                        <div class="chart-placeholder" id="chart-1">Graph 1</div>
+                    </div>
+                    <!-- Graph 2 -->
+                    <div class="chart-card">
+                        <h3>Time Series Trend</h3>
+                        <div class="chart-placeholder" id="chart-2">Graph 2</div>
+                    </div>
+                    <!-- Graph 3 -->
+                    <div class="chart-card">
+                        <h3>Correlation Heatmap</h3>
+                        <div class="chart-placeholder" id="chart-3">Graph 3</div>
+                    </div>
+                    <!-- Graph 4 -->
+                    <div class="chart-card">
+                        <h3>Categorical Breakdown</h3>
+                        <div class="chart-placeholder" id="chart-4">Graph 4</div>
+                    </div>
+                    <!-- Graph 5 -->
+                    <div class="chart-card">
+                        <h3>Outlier Detection</h3>
+                        <div class="chart-placeholder" id="chart-5">Graph 5</div>
+                    </div>
+                    <!-- Graph 6 -->
+                    <div class="chart-card">
+                        <h3>Clustering Summary</h3>
+                        <div class="chart-placeholder" id="chart-6">Graph 6</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-brand">
+                <h3>
+                    <span class="logo-icon" style="width:28px;height:28px;border-radius:6px;background:#00c853;display:inline-grid;place-items:center;font-size:.65rem;font-weight:900;color:#000">BI</span>
+                    Business Inspector
+                </h3>
+                <p>Data analytics platform. Inspect, visualize, and decide with confidence.</p>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Business Inspector. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+{% endblock %}
+
+{% block script %}
+    <!-- Link to the JS file for interactivity -->
+    <script src="{{ url_for('static', filename='js/inspect.js') }}"></script>
+{% endblock %}
