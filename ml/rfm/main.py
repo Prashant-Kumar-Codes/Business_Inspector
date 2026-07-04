@@ -1,8 +1,8 @@
-from data_loader import DataLoader
-from preprocess import DataPreprocess
-from rfm_engine import RFMEngine
-from visualizer import Visualizer
-from config import SEGMENT_MAP, assign_segment_features, rfm_summary_features, COLORS
+from Business_Inspector.ml.rfm.data_loader import DataLoader
+from Business_Inspector.ml.rfm.preprocess import DataPreprocess
+from Business_Inspector.ml.rfm.rfm_engine import RFMEngine
+from Business_Inspector.ml.rfm.visualizer import Visualizer
+from Business_Inspector.ml.rfm.config import SEGMENT_MAP, assign_segment_features, rfm_summary_features, COLORS
 import logging
 import warnings
 
@@ -12,9 +12,9 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 # full_path = r"D:\Codes\Projects\BusInsp\Business_Inspector\datasets\online_retail_II.csv"
 
-def main():
+def main(full_file_path):
     # laod the data
-    loader = DataLoader(full_path)
+    loader = DataLoader(full_file_path)
     raw_df = loader.load_data()
     
     
@@ -38,8 +38,8 @@ def main():
         # rfm summary dataframe
     rfm_summary_df = rfm_engine.rfm_summary(rfm_segment_df)
     
-    # print("\n--- RFM Summary ---")
-    # print(rfm_summary_df.head())
+    print("\n--- RFM Summary ---")
+    print(rfm_summary_df.head())
     
     # visualizer
     visualize = Visualizer(COLORS)
@@ -47,5 +47,8 @@ def main():
     visualize.summary_bar_chart(rfm_summary_df)
     
     logging.info(f'Successfully generated the RFM of the dataset')
-if __name__ == '__main__':
-    main()
+    
+    return 
+    
+# if __name__ == '__main__':
+#     main(full_file_path)
