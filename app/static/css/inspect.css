@@ -6,7 +6,7 @@
 /* ========== VARIABLES ========== */
 :root {
     --bg-dark: #0a0a0a;
-    --bg-card: #141414;
+    --bg-card: #141414aa;
     --text-primary: #ffffff;
     --text-secondary: #a0a0a0;
     --primary: #00c853;
@@ -19,6 +19,14 @@
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-dark);
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(155, 48, 255, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 95% 80%, rgba(255, 0, 127, 0.12) 0%, transparent 50%),
+        url("../images/wwwhirl (13).svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
     color: var(--text-primary);
     margin: 0;
     padding: 0;
@@ -68,9 +76,9 @@ body {
 .navbar {
     padding: 20px 0;
     border-bottom: 1px solid var(--border);
-    position: sticky;
+    position: relative;
     top: 0;
-    background: rgba(10, 10, 10, 0.8);
+    background: rgba(0, 0, 0, 0.113);
     backdrop-filter: blur(10px);
     z-index: 100;
 }
@@ -117,7 +125,7 @@ body {
 
 .nav-links a:hover,
 .nav-links a.active {
-    color: var(--text-primary);
+    color: var(--primary);
 }
 
 .nav-cta {
@@ -167,8 +175,8 @@ body {
 
 .drop-zone:hover,
 .drop-zone.dragover {
-    border-color: var(--primary);
-    background: rgba(0, 200, 83, 0.05);
+    border-color: #00c85384;
+    background: rgba(101, 209, 0, 0.1);
 }
 
 .upload-icon {
@@ -270,12 +278,14 @@ body {
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 20px;
+
 }
 
 .dataframe-container table {
     width: 100%;
     border-collapse: collapse;
     color: var(--text-primary);
+    font-size: 6px;
 }
 
 .dataframe-container th,
@@ -324,30 +334,137 @@ body {
     background: rgba(255, 255, 255, 0.02);
 }
 
-/* ========== FOOTER ========== */
-.footer {
-    border-top: 1px solid var(--border);
-    padding: 40px 0 20px;
-    margin-top: 60px;
+/* Make cards hoverable and clickable */
+.results-wrapper .chart-card {
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-.footer-brand h3 {
+.results-wrapper .chart-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 200, 83, 0.15);
+    border-color: rgba(0, 200, 83, 0.3);
+}
+
+/* ========== MODAL/LIGHTBOX FOR FULL SCREEN ========== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(5, 5, 5, 0.95);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
 }
 
-.footer-brand p {
-    color: var(--text-secondary);
-    max-width: 400px;
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
 }
 
-.footer-bottom {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    text-align: center;
+.modal-content {
+    max-width: 90%;
+    max-height: 85vh;
+    width: auto;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: auto;
 }
+
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+    -webkit-user-select: none;
+    user-select: none;
+    z-index: 30;
+}
+
+.modal-close:hover {
+    color: var(--text-primary);
+    transform: scale(1.1);
+}
+
+/* Modal styling adjustments for dataframe table */
+.modal-content table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--text-primary);
+}
+
+.modal-content th,
+.modal-content td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-content th {
+    background: rgba(255, 255, 255, 0.05);
+    font-weight: 600;
+}
+
+/* ========== CUSTOM SCROLLBARS ========== */
+/* For Webkit browsers (Chrome, Safari, Edge) */
+.dataframe-container::-webkit-scrollbar,
+.modal-table-wrapper::-webkit-scrollbar,
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.dataframe-container::-webkit-scrollbar-track,
+.modal-table-wrapper::-webkit-scrollbar-track,
+.modal-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 4px;
+}
+
+.dataframe-container::-webkit-scrollbar-thumb,
+.modal-table-wrapper::-webkit-scrollbar-thumb,
+.modal-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.5); /* 0.5 opacity background */
+    border-radius: 4px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.dataframe-container::-webkit-scrollbar-thumb:hover,
+.modal-table-wrapper::-webkit-scrollbar-thumb:hover,
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 200, 83, 0.8);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+/* For Firefox */
+.dataframe-container,
+.modal-table-wrapper,
+.modal-content {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.5) rgba(255, 255, 255, 0.03);
+}
+
+
