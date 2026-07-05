@@ -80,10 +80,52 @@
                     <h2 class="section-title">Dataset Analytics</h2>
                     <p class="section-subtitle">Overview of your data processed by our pipeline.</p>
                 </div>
-                <!-- Container for Pandas dataframe HTML output -->
-                <div class="dataframe-container" id="dataframe-container">
-                    <!-- The pandas .to_html() output will be injected here. 
-                         For now, it's empty awaiting backend response. -->
+                <!-- Grid for 6 visual data tables -->
+                <div class="charts-grid">
+                    <!-- Table 1 -->
+                    <div class="chart-card">
+                        <h3>RFM Summary Table</h3>
+                        <!-- Container for Pandas dataframe HTML output -->
+                        <div class="dataframe-container" id="dataframe-1" style="border: none; padding: 0; background: transparent; max-height: 250px; overflow: auto;">
+                            <!-- The pandas .to_html() output will be injected here. 
+                                 For now, it's empty awaiting backend response. -->
+                        </div>
+                    </div>
+                    <!-- Table 2 -->
+                    <div class="chart-card">
+                        <h3>RFM Value Table For Each Customer</h3>
+                        <div class="dataframe-container" id="dataframe-2" style="border: none; padding: 0; background: transparent; max-height: 250px; overflow: auto;">
+                            <div class="chart-placeholder">Table 2</div>
+                        </div>
+                    </div>
+                    <!-- Table 3 -->
+                    <div class="chart-card">
+                        <h3>Customer Segments Table</h3>
+                        <div class="dataframe-container" id="dataframe-3" style="border: none; padding: 0; background: transparent; max-height: 250px; overflow: auto;">
+                            <div class="chart-placeholder">Table 3</div>
+                        </div>
+                    </div>
+                    <!-- Table 4 -->
+                    <div class="chart-card">
+                        <h3>Feature Statistics Table</h3>
+                        <div class="dataframe-container" id="dataframe-4" style="border: none; padding: 0; background: transparent; max-height: 250px; overflow: auto;">
+                            <div class="chart-placeholder">Table 4</div>
+                        </div>
+                    </div>
+                    <!-- Table 5 -->
+                    <div class="chart-card">
+                        <h3>Correlation Matrix Table</h3>
+                        <div class="dataframe-container" id="dataframe-5" style="border: none; padding: 0; background: transparent; max-height: 250px; overflow: auto;">
+                            <div class="chart-placeholder">Table 5</div>
+                        </div>
+                    </div>
+                    <!-- Table 6 -->
+                    <div class="chart-card">
+                        <h3>Model Performance Table</h3>
+                        <div class="dataframe-container" id="dataframe-6" style="border: none; padding: 0; background: transparent; max-height: 250px; overflow: auto;">
+                            <div class="chart-placeholder">Table 6</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -133,23 +175,16 @@
         </section>
     </div>
 
-    <!-- ========== FOOTER ========== -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-brand">
-                <h3>
-                    <span class="logo-icon" style="width:28px;height:28px;border-radius:6px;background:#00c853;display:inline-grid;place-items:center;font-size:.65rem;font-weight:900;color:#000">BI</span>
-                    Business Inspector
-                </h3>
-                <p>Data analytics platform. Inspect, visualize, and decide with confidence.</p>
-            </div>
-            <div class="footer-bottom">
-                <span>&copy; 2026 Business Inspector. All rights reserved.</span>
-            </div>
-        </div>
-    </footer>
+    <!-- ========== LIGHTBOX MODAL ========== -->
+    <div class="modal-overlay" id="lightbox-modal">
+        <span class="modal-close" id="modal-close">&times;</span>
+        <div class="modal-content" id="modal-content-area"></div>
+    </div>
 
 {% endblock %}
+
+<!-- footer from base.html -->
+{%block footer%}{{super()}}{%endblock%}
 
 {% block script %}
     <!-- Link to the JS file for interactivity -->
