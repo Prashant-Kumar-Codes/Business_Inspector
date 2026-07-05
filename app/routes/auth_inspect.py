@@ -1,5 +1,8 @@
 from .extensions import *
+from .fuc_inspect import fig_to_base64
 from Business_Inspector.ml.rfm.main import main
+import io
+import base64
 
 inspect_auth = Blueprint('inspect_auth', __name__)
 
@@ -42,8 +45,24 @@ def analyse_dataset():
         return jsonify({'status': 'error', 'message': 'No uploaded file found. Please upload a file first.'}), 400
         
     try:
-        main(file_path)
-        return jsonify({'status': 'success', 'message': 'Analysis complete'})
+        rfm_segment_df, rfm_summary_df, pie_plot, bar_plot = main(file_path)
+
+        pie_base64 = fig_to_base64(pie_plot)
+        bar_base64 = fig_to_base64(bar_plot)
+        
+        # Convert DataFrames to HTML tables
+        summary_table_html = rfm_summary_df.to_html(classes='table table-striped table-hover', index=False)
+        segment_table_html = rfm_segment_df.to_html(classes='table table-striped table-hover', index=True)
+        
+        return jsonify({
+            'status': 'success',
+            'message': 'Analysis complete',
+            'segment_table': segment_table_html,
+            'summary_table': summary_table_html,
+            'pie_chart': pie_base64,
+            'bar_chart': bar_base64
+        })
     except Exception as e:
         return jsonify({'status': 'error', 'message': f'Analysis failed: {str(e)}'}), 500
+
 
