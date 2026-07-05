@@ -1,0 +1,43 @@
+:root {
+  --clr-black: #000000;
+  --clr-dark: #0c0c0c;
+  --clr-card: #161616;
+  --clr-border: rgba(255,255,255,.25);
+  --clr-green: #00c853;
+  --clr-green-dim: #00a344;
+  --clr-green-glow: rgba(0,200,83,.25);
+  --clr-gray: #888;
+  --clr-gray-light: #bbb;
+  --clr-white: #f0f0f0;
+  --clr-yellow: #ECDD52;
+  --clr-burgundy: #902A41;
+  --clr-teal: #36B4B6;
+  --clr-purple: #7D23FF;
+  --radius-card: 16px;
+  --radius-pill: 80px;
+  --font: 'Inter', system-ui, sans-serif;
+  --ease: .35s cubic-bezier(.4,0,.2,1);
+}
+
+/* ===== FOOTER ===== */
+.footer{background:var(--clr-black);padding:60px 0 28px;border-top:1px solid var(--clr-border);}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand h3{font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.footer-brand p{font-size:.85rem;color:rgba(255,255,255,.35);line-height:1.7;max-width:280px}
+.footer-col h4{font-size:.75rem;text-transform:uppercase;letter-spacing:2px;color:var(--clr-green);font-weight:600;margin-bottom:18px}
+.footer-col a{display:block;font-size:.85rem;color:rgba(255,255,255,.35);padding:3px 0;transition:var(--ease);text-decoration: none;}
+.footer-col a:hover{color:#fff;padding-left:6px}
+.footer-bottom{border-top:1px solid var(--clr-border);padding-top:20px;display:flex;justify-content:space-between;align-items:center;font-size:.78rem;color:rgba(255,255,255,.25)}
+.footer-socials{display:flex;gap:12px}
+.footer-socials a{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid var(--clr-border);display:grid;place-items:center;color:rgba(255,255,255,.35);transition:var(--ease);font-size:.85rem}
+.footer-socials a:hover{background:var(--clr-green);color:#000;border-color:var(--clr-green);transform:translateY(-2px)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .footer-grid{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;gap:14px;text-align:center}
+  .section{padding:60px 0}
+}
