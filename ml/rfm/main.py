@@ -10,8 +10,6 @@ import warnings
 warnings.simplefilter(category=FutureWarning, action='ignore')
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# full_path = r"D:\Codes\Projects\BusInsp\Business_Inspector\datasets\online_retail_II.csv"
-
 def main(full_file_path):
     # laod the data
     loader = DataLoader(full_file_path)
@@ -43,12 +41,9 @@ def main(full_file_path):
     
     # visualizer
     visualize = Visualizer(COLORS)
-    visualize.summary_pie_chart(rfm_summary_df)
-    visualize.summary_bar_chart(rfm_summary_df)
+    pie_plot = visualize.summary_pie_chart(rfm_summary_df)
+    bar_plot = visualize.summary_bar_chart(rfm_summary_df)
     
     logging.info(f'Successfully generated the RFM of the dataset')
     
-    return 
-    
-# if __name__ == '__main__':
-#     main(full_file_path)
+    return [rfm_segment_df, rfm_summary_df, pie_plot, bar_plot]

@@ -12,7 +12,8 @@ class Visualizer:
         explode = [0]*len(rfmSummary['Segment_count'])
         explode[rfmSummary['Segment_count'].idxmax()] = 0.2
 
-        plt.figure(figsize=(10, 10))
+        fig, ax = plt.subplots(figsize=(10, 10))
+        
         wedges, texts, autotexts = plt.pie(
             x=rfmSummary['Segment_count'],
             labels=rfmSummary['Segment'],
@@ -28,13 +29,15 @@ class Visualizer:
             autotext.set_fontweight("bold")
             autotext.set_fontsize(12)
 
-        plt.legend(loc="upper left", bbox_to_anchor=(1, 0, 0.5, 1))
-        plt.tight_layout()
-        plt.show()
+        ax.legend(loc="upper left", bbox_to_anchor=(1, 0, 0.5, 1))
+        return fig
         
     def summary_bar_chart(self, rfmSummary: pd.DataFrame):
         'Plot rfmSummary bar chat for count'
-        plt.figure(figsize=(11, 7))
+        
+        fig, ax = plt.subplots(figsize=(11, 7))
         bar_plot = sns.barplot(data=rfmSummary, x='Segment_count', y='Segment', palette='viridis')
         bar_plot.bar_label(bar_plot.containers[0], fmt='%d')
-        plt.show()
+        #ax.legend(loc="upper left", bbox_to_anchor=(1, 0, 0.5, 1))
+        ax.legend()
+        return fig

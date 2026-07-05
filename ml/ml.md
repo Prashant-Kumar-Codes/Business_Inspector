@@ -11,12 +11,13 @@
 
 **ML needed:** Time-series forecasting (Prophet, ARIMA, or even simple exponential smoothing)
 
-### 2. **RFM + Clustering for Segmentation & Churn**
+### 2. **RFM**
 - **Compute RFM per customer:**
   - **R**ecency: days since last purchase
   - **F**requency: how many purchases in last X months
   - **M**onetary: total spend in last X months
 
+### 3. **Clustering for Segmentation & Churn**
 - **Cluster them (K-Means)** → get customer segments (Champions, At Risk, Dormant, etc.)
 
 - **Extract churn signal:** Customers in "dormant" or "at-risk" clusters = high churn probability
@@ -28,7 +29,8 @@
 | Part | Tool |
 |---|---|
 | **Data ingestion** | Python + pandas |
-| **Time-series forecasting** | Prophet or ARIMA (from `statsmodels`) |
-| **RFM + Clustering** | scikit-learn (K-Means) |
+| **Time-series forecasting** | Prophet or ARIMA (from `statsmodels`) and scikit-learn |
+| **RFM** | pandas |
+| **Clustering** | scikit-learn (K-Means) |
 
 ---
