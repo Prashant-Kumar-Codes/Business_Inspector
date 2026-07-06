@@ -87,27 +87,35 @@ document.addEventListener('DOMContentLoaded', () => {
         // Create FormData from form element
         const formData = new FormData(uploadForm);
 
+        // Helper: safely parse JSON from a response, handling HTML error pages
+        async function parseJsonResponse(response, stepName) {
+            const contentType = response.headers.get('content-type') || '';
+            if (!response.ok) {
+                if (contentType.includes('application/json')) {
+                    const err = await response.json();
+                    throw new Error(err.message || `${stepName} failed`);
+                }
+                throw new Error(`${stepName} failed (HTTP ${response.status}). Server returned a non-JSON response.`);
+            }
+            if (!contentType.includes('application/json')) {
+                throw new Error(`${stepName}: Expected JSON response but received HTML. Check server route configuration.`);
+            }
+            return response.json();
+        }
+
         // First step: upload the dataset
         fetch('/inspect/upload_dataset', {
             method: 'POST',
             body: formData
         })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => { throw new Error(err.message || 'Upload failed') });
-            }
-            return response.json();
-        })
+        .then(response => parseJsonResponse(response, 'Upload'))
         .then(data => {
             // Second step: run the analysis
-            return fetch('/inspect/analyse_dataset');
+            return fetch('/inspect/analyse_dataset', {
+                method: 'POST'
+            });
         })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => { throw new Error(err.message || 'Analysis failed') });
-            }
-            return response.json();
-        })
+        .then(response => parseJsonResponse(response, 'Analysis'))
         .then(data => {
             // 3. Hide Processing Animation
             processingSection.classList.add('hidden');
