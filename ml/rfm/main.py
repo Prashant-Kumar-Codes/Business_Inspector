@@ -3,6 +3,7 @@ from ml.rfm.preprocess import DataPreprocess
 from ml.rfm.rfm_engine import RFMEngine
 from ml.rfm.visualizer import Visualizer
 from ml.rfm.config import SEGMENT_MAP, assign_segment_features, rfm_summary_features, COLORS
+
 import logging
 import warnings
 

@@ -12,7 +12,7 @@ UPLOAD_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.
 def inspect():
     return render_template('auth/inspect.html')
 
-@inspect_auth.route('/inspect/upload_dataset', methods=['POST', 'GET'])
+@inspect_auth.route('/inspect/upload_dataset', methods=['POST'])
 def upload_dataset():
     if request.method == 'POST':
         # check for the file present in request
@@ -38,7 +38,7 @@ def upload_dataset():
         
         return jsonify({'status': 'success', 'message': 'File uploaded successfully'})
 
-@inspect_auth.route('/inspect/analyse_dataset', methods=['POST', 'GET'])
+@inspect_auth.route('/inspect/analyse_dataset', methods=['POST'])
 def analyse_dataset():
     file_path = session.get('uploaded_file_path')
     if not file_path or not os.path.exists(file_path):
