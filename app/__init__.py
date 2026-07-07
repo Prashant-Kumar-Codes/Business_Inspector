@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from dotenv import load_dotenv
 from app.config.config import Config
 
@@ -13,6 +14,12 @@ def create_app():
             )
 # configure the config file
     app.config.from_object(Config)
+
+    CORS(app, origins=[
+        "https://prashantbuilds.in",
+        "https://www.prashantbuilds.in",
+        "https://inspector.prashantbuilds.in"
+    ])
     
 # register blueprints:
 

@@ -1,6 +1,6 @@
 from .extensions import *
 from .fuc_inspect import fig_to_base64
-from Business_Inspector.ml.rfm.main import main
+from ml.rfm.main import main
 import io
 import base64
 

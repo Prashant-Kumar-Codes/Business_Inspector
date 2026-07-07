@@ -1,8 +1,8 @@
-from Business_Inspector.ml.rfm.data_loader import DataLoader
-from Business_Inspector.ml.rfm.preprocess import DataPreprocess
-from Business_Inspector.ml.rfm.rfm_engine import RFMEngine
-from Business_Inspector.ml.rfm.visualizer import Visualizer
-from Business_Inspector.ml.rfm.config import SEGMENT_MAP, assign_segment_features, rfm_summary_features, COLORS
+from ml.rfm.data_loader import DataLoader
+from ml.rfm.preprocess import DataPreprocess
+from ml.rfm.rfm_engine import RFMEngine
+from ml.rfm.visualizer import Visualizer
+from ml.rfm.config import SEGMENT_MAP, assign_segment_features, rfm_summary_features, COLORS
 import logging
 import warnings
 
