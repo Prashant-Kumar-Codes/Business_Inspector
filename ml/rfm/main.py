@@ -2,7 +2,9 @@ from ml.rfm.data_loader import DataLoader
 from ml.rfm.preprocess import DataPreprocess
 from ml.rfm.rfm_engine import RFMEngine
 from ml.rfm.visualizer import Visualizer
-from ml.rfm.config import SEGMENT_MAP, assign_segment_features, rfm_summary_features, COLORS
+from ml.rfm.config import COLUMNS, SEGMENT_MAP, assign_segment_features, rfm_summary_features, COLORS
+
+
 
 import logging
 import warnings
@@ -19,7 +21,8 @@ def main(full_file_path):
     
     # preprocessing of data
     preprocessor = DataPreprocess()
-    clean_df = preprocessor.cleanData(raw_df)
+    stdCol_df = preprocessor.standardCols(STANDARD_COLUMNS)
+    clean_df = preprocessor.cleanData(stdCol_df)
     
     
     # RFM Analysis

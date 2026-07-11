@@ -2,6 +2,9 @@ import pandas as pd
 import logging
 
 class DataPreprocess:
+    def standardCols(self, cols: list) -> pd.DataFrame:
+        return df[cols]
+    
     def cleanData(self, df: pd.DataFrame) -> pd.DataFrame:
         logging.info(f'Cleaning the Data...')
         
