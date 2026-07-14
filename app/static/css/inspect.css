@@ -22,7 +22,7 @@ body {
     background-image: 
         radial-gradient(circle at 10% 20%, rgba(155, 48, 255, 0.12) 0%, transparent 45%),
         radial-gradient(circle at 95% 80%, rgba(255, 0, 127, 0.12) 0%, transparent 50%),
-        url("../images/wwwhirl (13).svg");
+        url("../images/inspect_bg.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
