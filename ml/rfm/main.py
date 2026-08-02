@@ -21,7 +21,7 @@ def main(full_file_path):
     
     # preprocessing of data
     preprocessor = DataPreprocess()
-    stdCol_df = preprocessor.standardCols(STANDARD_COLUMNS)
+    stdCol_df = preprocessor.standardCols(raw_df, COLUMNS)
     clean_df = preprocessor.cleanData(stdCol_df)
     
     
