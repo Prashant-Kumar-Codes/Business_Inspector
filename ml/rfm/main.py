@@ -21,9 +21,9 @@ def main(full_file_path):
     
     # preprocessing of data
     preprocessor = DataPreprocess()
-    stdCol_df = preprocessor.standardCols(raw_df, COLUMNS)
-    clean_df = preprocessor.cleanData(stdCol_df)
-    
+    # stdCol_df = preprocessor.standardCols(raw_df, COLUMNS)
+    # clean_df = preprocessor.cleanData(stdCol_df)
+    clean_df = preprocessor.cleanData(raw_df)
     
     # RFM Analysis
     rfm_engine = RFMEngine(SEGMENT_MAP, assign_segment_features, rfm_summary_features)
