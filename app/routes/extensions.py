@@ -8,6 +8,9 @@ import sys
 import psycopg2
 from urllib.parse import urlparse
 from dotenv import load_dotenv
+from flask_mail import Mail, Message
+
+mail = Mail()
 
 # Load environment variables from the .env file in the app directory
 # dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
