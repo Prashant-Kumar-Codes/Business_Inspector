@@ -21,6 +21,9 @@ def create_app():
         "https://inspector.prashantbuilds.in"
     ])
     
+    from app.routes.extensions import mail
+    mail.init_app(app)
+
 # register blueprints:
 
     # add auth_home route
@@ -30,6 +33,9 @@ def create_app():
     # add auth_inspect route
     from app.routes.auth_inspect import inspect_auth
     app.register_blueprint(inspect_auth)
+    
+    from app.routes.login_signup.auth_login import login_auth
+    app.register_blueprint(login_auth)
     
     
     return app
