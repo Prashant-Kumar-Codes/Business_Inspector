@@ -26,7 +26,7 @@
             <a href="#how-it-works">How It Works</a>
             <a href="#tools">Tech Stack</a>
             <a href="#features">Features</a>
-            <a href="{{url_for('inspect_auth.inspect', username= session.user or 'guest')}}" class="nav-cta">Get Started</a>
+            <a href="{{ url_for('login_auth.login') }}" class="nav-cta">Login</a>
         </div>
         <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
             <span></span><span></span><span></span>
@@ -51,8 +51,8 @@
                 Business Inspector transforms your sales and customer data into actionable insights using artificial intelligence—helping you identify your best customers, predict future revenue, detect churn risks, and make smarter business decisions.
             </p>
             <div class="hero-buttons">
-                <a href="#how-it-works" class="btn-primary">Start Free</a>
-                <a href="#tools" class="btn-outline">Book a Demo</a>
+                <a href="{{ url_for('login_auth.login') }}" class="btn-primary">Start Free</a>
+                <a href="#tools" class="btn-outline">About this Platform</a>
             </div>
         </div>
     </div>
