@@ -26,7 +26,12 @@
             <a href="#how-it-works">How It Works</a>
             <a href="#tools">Tech Stack</a>
             <a href="#features">Features</a>
-            <a href="{{ url_for('login_auth.login') }}" class="nav-cta">Login</a>
+            <a href="{{ url_for('inspect_auth.inspect') }}">Inspect</a>
+            {% if session.username or session.user_email %}
+                <a href="{{ url_for('login_auth.logout') }}" class="nav-cta">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login_auth.login') }}" class="nav-cta">Login</a>
+            {% endif %}
         </div>
         <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
             <span></span><span></span><span></span>

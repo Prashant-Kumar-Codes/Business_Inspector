@@ -23,12 +23,11 @@
             </a>
             <div class="nav-links" id="nav-links">
                 <a href="{{ url_for('home_auth.homepage') }}">Home</a>
-                <a href="{{ url_for('inspect_auth.inspect', username=session.user or 'guest') }}" class="active">Inspect</a>
-                <!-- Optional logic for login/logout based on session -->
-                {% if session.user %}
-                    <a href="#" class="nav-cta">Logout</a>
+                <a href="{{ url_for('inspect_auth.inspect', username=session.username or 'guest') }}" class="active">Inspect</a>
+                {% if session.username or session.user_email %}
+                    <a href="{{ url_for('login_auth.logout') }}" class="nav-cta">Logout</a>
                 {% else %}
-                    <a href="#" class="nav-cta">Login</a>
+                    <a href="{{ url_for('login_auth.login') }}" class="nav-cta">Login</a>
                 {% endif %}
             </div>
         </div>

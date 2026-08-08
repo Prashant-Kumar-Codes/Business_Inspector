@@ -10,6 +10,8 @@ UPLOAD_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.
     
 @inspect_auth.route('/inspect', methods=['POST', 'GET'])
 def inspect():
+    if not session['username'] and session['email']:
+        return render_template('auth/login.html')
     return render_template('auth/inspect.html')
 
 @inspect_auth.route('/inspect/upload_dataset', methods=['POST'])

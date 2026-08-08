@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg')  # Non-GUI backend for thread-safety and web servers
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -14,7 +16,7 @@ class Visualizer:
 
         fig, ax = plt.subplots(figsize=(10, 10))
         
-        wedges, texts, autotexts = plt.pie(
+        wedges, texts, autotexts = ax.pie(
             x=rfmSummary['Segment_count'],
             labels=rfmSummary['Segment'],
             autopct='%.2f%%',
@@ -33,11 +35,9 @@ class Visualizer:
         return fig
         
     def summary_bar_chart(self, rfmSummary: pd.DataFrame):
-        'Plot rfmSummary bar chat for count'
+        'Plot rfmSummary bar chart for count'
         
         fig, ax = plt.subplots(figsize=(11, 7))
-        bar_plot = sns.barplot(data=rfmSummary, x='Segment_count', y='Segment', palette='viridis')
+        bar_plot = sns.barplot(data=rfmSummary, x='Segment_count', y='Segment', palette='viridis', ax=ax)
         bar_plot.bar_label(bar_plot.containers[0], fmt='%d')
-        #ax.legend(loc="upper left", bbox_to_anchor=(1, 0, 0.5, 1))
-        ax.legend()
         return fig
