@@ -1,7 +1,7 @@
 # config file to store all the hardcoded variables and constants
 
 # required features for rfm
-COLUMNS = ['InvoiceNo', 'Quantity', 'InvoiceDate', 'UnitPrice', 'CustomerID', 'Country']
+COLUMNS = ['Invoice', 'Quantity', 'InvoiceDate', 'Price', 'Customer ID', 'Country']
 
 # Segment Mapping
 SEGMENT_MAP = {
