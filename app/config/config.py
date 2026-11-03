@@ -1,24 +1,31 @@
 import os
-from dotenv import load_dotenv
+from pathlib import Path
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-# Load environment variables from the .env file in the app directory
-dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
-load_dotenv(dotenv_path)
+BASE_DIR = Path(__file__).resolve().parent.parent
+STATIC_FILES_DIR = BASE_DIR / 'static'
+ENV_FILE = BASE_DIR / '.env'
 
-class Config:
-    SECRET_KEY = os.getenv('SECRET_KEY')
-    
-    # database configuration
-    DB_URL = os.getenv('DB_URL')
-    
 
-    # chatbot
-    AI_KEY = os.getenv('AI_KEY')
+class Config(BaseSettings):
+    SECRET_KEY: str
+    DB_URL: str
+    AI_KEY: str
+
+    MAIL_SERVER: str
+    MAIL_PORT: int = 587
+    MAIL_USE_TLS: bool = True
+    MAIL_USERNAME: str
+    MAIL_PASSWORD: str
+    MAIL_DEFAULT_SENDER: str
     
-    # Mail (Brevo) configuration
-    MAIL_SERVER = os.getenv('MAIL_SERVER')
-    MAIL_PORT = int(os.getenv('MAIL_PORT', 587))
-    MAIL_USE_TLS = os.getenv('MAIL_USE_TLS', 'True').lower() in ['true', 'on', '1']
-    MAIL_USERNAME = os.getenv('MAIL_USERNAME')
-    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
-    MAIL_DEFAULT_SENDER = os.getenv('MAIL_DEFAULT_SENDER')
+    model_config = SettingsConfigDict(
+        env_file=ENV_FILE,
+        env_file_encoding='utf-8',
+        case_sesitive=True,
+        extra='ignore'
+    )
+
+# create configuration instace
+settings = Config()
+        

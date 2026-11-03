@@ -31,9 +31,9 @@ Business_Inspector/
 │   ├── routes/
 │   │   ├── __init__.py
 │   │   ├── extensions.py         # Shared imports & Flask extensions
-│   │   ├── auth_home.py          # Blueprint: 'home_auth' -> GET / (homepage)
+│   │   ├── auth_home.py          # Blueprint: 'home_route' -> GET / (homepage)
 │   │   ├── auth_inspect.py       # Blueprint: 'inspect_auth' -> GET/POST /inspect
-│   │   ├── auth_login.py         # Blueprint: 'login_auth' -> GET/POST /login (Unified Auth UI)
+│   │   ├── auth_login.py         # Blueprint: 'login_route' -> GET/POST /login (Unified Auth UI)
 │   │   └── fuc_inspect.py        # Inspection utility functions & route handlers
 │   ├── static/
 │   │   ├── css/
@@ -68,8 +68,8 @@ Business_Inspector/
 
 | Blueprint Name | File | Endpoint | Method | Template / Action |
 | :--- | :--- | :--- | :--- | :--- |
-| `home_auth` | `app/routes/auth_home.py` | `/` | GET | `auth/homepage.html` |
-| `login_auth` | `app/routes/auth_login.py` | `/login` | GET, POST | `auth/login.html` |
+| `home_route` | `app/routes/auth_home.py` | `/` | GET | `auth/homepage.html` |
+| `login_route` | `app/routes/auth_login.py` | `/login` | GET, POST | `auth/login.html` |
 | `inspect_auth` | `app/routes/auth_inspect.py` | `/inspect/<username>` | GET, POST | `auth/inspect.html` |
 
 ---

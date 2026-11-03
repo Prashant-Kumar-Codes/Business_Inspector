@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/homepage.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -26,11 +26,11 @@
             <a href="#how-it-works">How It Works</a>
             <a href="#tools">Tech Stack</a>
             <a href="#features">Features</a>
-            <a href="{{ url_for('inspect_auth.inspect') }}">Inspect</a>
+            <a href="{{ url_for('inspect') }}">Inspect</a>
             {% if session.username or session.user_email %}
-                <a href="{{ url_for('login_auth.logout') }}" class="nav-cta">Logout</a>
+                <a href="{{ url_for('logout') }}" class="nav-cta">Logout</a>
             {% else %}
-                <a href="{{ url_for('login_auth.login') }}" class="nav-cta">Login</a>
+                <a href="{{ url_for('login') }}" class="nav-cta">Login</a>
             {% endif %}
         </div>
         <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@
 <!-- ========== HERO ========== -->
 <section class="hero" id="about">
     <video autoplay muted loop playsinline class="hero-video-bg">
-        <source src="{{ url_for('static', filename='videos/hero_bg_small.mp4') }}" type="video/mp4">
+        <source src="{{ url_for('static', path='videos/hero_bg_small.mp4') }}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
     <div class="container">
@@ -56,7 +56,7 @@
                 Business Inspector transforms your sales and customer data into actionable insights using artificial intelligence—helping you identify your best customers, predict future revenue, detect churn risks, and make smarter business decisions.
             </p>
             <div class="hero-buttons">
-                <a href="{{ url_for('login_auth.login') }}" class="btn-primary">Start Free</a>
+                <a href="{{ url_for('login') }}" class="btn-primary">Start Free</a>
                 <a href="#tools" class="btn-outline">About this Platform</a>
             </div>
         </div>
@@ -128,7 +128,7 @@
 
         <div class="image-placeholder reveal">
             <!-- Add an illustration of AI analyzing data here -->
-            <img src="{{ url_for('static', filename='images/business_with_ai_pipeline.jpg') }}" alt="A beautiful scenery">
+            <img src="{{ url_for('static', path='images/business_with_ai_pipeline.jpg') }}" alt="A beautiful scenery">
         </div>
     </div>
 </section>
@@ -190,7 +190,7 @@
     <div class="container">
         <div class="split-layout-designed">
             <div class="image-placeholder reveal">
-                <img src="{{ url_for('static', filename='images/working_professional_team.jpg') }}" alt="Business Professionals Working with AI">
+                <img src="{{ url_for('static', path='images/working_professional_team.jpg') }}" alt="Business Professionals Working with AI">
             </div>
             <div class="split-content-right">
                 <div class="section-header reveal" style="margin-bottom: 24px;">
@@ -241,7 +241,7 @@
             </div>
             <div class="image-placeholder reveal">
                 <!-- Add an image showing a dashboard or data visualization here -->
-                <img src="{{ url_for('static', filename='images/business_outcome.jpg') }}" alt="Business grow the proper AI usages and Data Analysis">
+                <img src="{{ url_for('static', path='images/business_outcome.jpg') }}" alt="Business grow the proper AI usages and Data Analysis">
             </div>
         </div>
     </div>
@@ -304,5 +304,5 @@
 {%block footer%}{{super()}}{%endblock%}
 
 {% block script %}
-    <script src="{{ url_for('static', filename='js/homepage.js') }}"></script>
+    <script src="{{ url_for('static', path='js/homepage.js') }}"></script>
 {% endblock %}

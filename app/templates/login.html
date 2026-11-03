@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/login.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -85,7 +85,7 @@
             {% endwith %}
 
             <!-- ================= LOGIN FORM ================= -->
-            <form id="login-form" class="auth-form auth-mode-panel active" action="{{ url_for('login_auth.login_submit') }}" method="POST" autocomplete="on" novalidate>
+            <form id="login-form" class="auth-form auth-mode-panel active" action="{{ url_for('login_submit') }}" method="POST" autocomplete="on" novalidate>
                 {% if csrf_token %}
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 {% endif %}
@@ -173,7 +173,7 @@
             </form>
 
             <!-- ================= SIGNUP FORM ================= -->
-            <form id="signup-form" class="auth-form auth-mode-panel" action="{{ url_for('login_auth.signup_submit') }}" method="POST" autocomplete="on" style="display:none;" novalidate>
+            <form id="signup-form" class="auth-form auth-mode-panel" action="{{ url_for('signup_submit') }}" method="POST" autocomplete="on" style="display:none;" novalidate>
                 {% if csrf_token %}
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 {% endif %}
@@ -379,5 +379,5 @@
 {% block footer %}{% endblock %}
 
 {% block script %}
-    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script src="{{ url_for('static', path='js/login.js') }}"></script>
 {% endblock %}

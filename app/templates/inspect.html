@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- Specific CSS for the inspect page -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/inspect.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/inspect.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -17,17 +17,17 @@
     <!-- ========== NAVBAR ========== -->
     <nav class="navbar" id="navbar">
         <div class="container">
-            <a href="{{ url_for('home_auth.homepage') }}" class="nav-logo">
+            <a href="{{ url_for('homepage') }}" class="nav-logo">
                 <span class="logo-icon">BI</span>
                 Business Inspector
             </a>
             <div class="nav-links" id="nav-links">
-                <a href="{{ url_for('home_auth.homepage') }}">Home</a>
-                <a href="{{ url_for('inspect_auth.inspect', username=session.username or 'guest') }}" class="active">Inspect</a>
+                <a href="{{ url_for('homepage') }}">Home</a>
+                <a href="{{ url_for('inspect', username=session.username or 'guest') }}" class="active">Inspect</a>
                 {% if session.username or session.user_email %}
-                    <a href="{{ url_for('login_auth.logout') }}" class="nav-cta">Logout</a>
+                    <a href="{{ url_for('logout') }}" class="nav-cta">Logout</a>
                 {% else %}
-                    <a href="{{ url_for('login_auth.login') }}" class="nav-cta">Login</a>
+                    <a href="{{ url_for('login') }}" class="nav-cta">Login</a>
                 {% endif %}
             </div>
         </div>
@@ -187,5 +187,5 @@
 
 {% block script %}
     <!-- Link to the JS file for interactivity -->
-    <script src="{{ url_for('static', filename='js/inspect.js') }}"></script>
+    <script src="{{ url_for('static', path='js/inspect.js') }}"></script>
 {% endblock %}

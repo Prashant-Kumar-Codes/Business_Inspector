@@ -1,8 +1,12 @@
-from .extensions import *
+from fastapi import APIRouter, Request
+from fastapi.templating import Jinja2Templates
 
-home_auth = Blueprint('home_auth', __name__)
-
-@home_auth.route('/', methods=['GET'])
-def homepage():
-    return render_template('auth/homepage.html')
+home_route = APIRouter()
+home_template = Jinja2Templates(directory='app/templates')
     
+@home_route.get('/')
+def homepage(request: Request):
+    return home_template.TemplateResponse(
+        'homepage.html',
+        {'request': request}
+    )

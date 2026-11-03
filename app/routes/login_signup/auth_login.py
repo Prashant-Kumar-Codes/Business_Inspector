@@ -1,20 +1,24 @@
-from ..extensions import *
+from fastapi import Request, APIRouter, HTTPException
+from fastapi.templating import Jinja2Templates
 import secrets
 from .signup_otp import send_otp_email
 from .delete_unverified import delete_unverified_users
 
-login_auth = Blueprint('login_auth', __name__)
+login_route = APIRouter()
+login_template = Jinja2Templates(directory='app/templates')
 
 
 # ======= RENDER LOGIN PAGE =======
-@login_auth.route('/login', methods=['GET', 'POST'])
-def login():
-    return render_template('auth/login.html')
-
+@path.get('/login')
+def login(request: Response):
+    return login_template.TemplateResponse(
+        'login.html',
+        {request:request}
+    )
 
 # ======= OTP - VERIFY =======
-@login_auth.route('/signup/verify_otp', methods=['POST'])
-def verify():
+@path.post('/signup/verify_otp')
+def verify(request: request):
     try:
         if request.is_json:
             data = request.get_json() or {}
@@ -31,14 +35,14 @@ def verify():
             if request.is_json:
                 return jsonify({'success': False, 'message': msg}), 400
             flash(msg, 'error')
-            return redirect(url_for('login_auth.login'))
+            return redirect(url_for('login'))
 
         if not otp or len(otp) != 6:
             msg = 'Please enter a valid 6-digit OTP.'
             if request.is_json:
                 return jsonify({'success': False, 'message': msg}), 400
             flash(msg, 'error')
-            return redirect(url_for('login_auth.login'))
+            return redirect(url_for('login'))
 
         mycon  = dbConn()
         cursor = mycon.cursor()
@@ -53,7 +57,7 @@ def verify():
             if request.is_json:
                 return jsonify({'success': False, 'message': msg}), 404
             flash(msg, 'error')
-            return redirect(url_for('login_auth.login'))
+            return redirect(url_for('login'))
 
         hash_otp, otp_created_at = result
         print(f"🗄 Stored OTP hash found | Created: {otp_created_at}")
@@ -64,7 +68,7 @@ def verify():
             if request.is_json:
                 return jsonify({'success': False, 'message': msg}), 400
             flash(msg, 'error')
-            return redirect(url_for('login_auth.login'))
+            return redirect(url_for('login'))
 
         if datetime.utcnow() - otp_created_at > timedelta(minutes=10):
             cursor.close(); mycon.close()
@@ -73,7 +77,7 @@ def verify():
             if request.is_json:
                 return jsonify({'success': False, 'message': msg}), 400
             flash(msg, 'error')
-            return redirect(url_for('login_auth.login'))
+            return redirect(url_for('login'))
 
         if not check_password_hash(hash_otp, otp):
             cursor.close(); mycon.close()
@@ -82,7 +86,7 @@ def verify():
             if request.is_json:
                 return jsonify({'success': False, 'message': msg}), 400
             flash(msg, 'error')
-            return redirect(url_for('login_auth.login'))
+            return redirect(url_for('login'))
 
         cursor.execute("UPDATE login_data SET is_verified = true WHERE email = %s", (email,))
         cursor.execute("UPDATE otp_data SET otp = NULL WHERE email = %s", (email,))
@@ -123,14 +127,14 @@ def verify():
         if request.is_json:
             return jsonify({'success': False, 'message': msg}), 500
         flash(msg, 'error')
-        return redirect(url_for('login_auth.login'))
+        return redirect(url_for('login'))
 
 
 # ======= LOGIN SUBMIT =======
-@login_auth.route('/login/submit', methods=['GET', 'POST'])
+@path.route('/login/submit', methods=['GET', 'POST'])
 def login_submit():
     if request.method == 'GET':
-        return redirect(url_for('login_auth.login'))
+        return redirect(url_for('login'))
 
     try: 
         data = request.get_json() if request.is_json else request.form
@@ -144,7 +148,7 @@ def login_submit():
             if request.is_json:
                 return jsonify({'success': False, 'message': msg}), 400
             flash(msg, 'error')
-            return redirect(url_for('login_auth.login'))
+            return redirect(url_for('login'))
 
         mycon  = dbConn()
         cursor = mycon.cursor()
@@ -163,7 +167,7 @@ def login_submit():
             if request.is_json:
                 return jsonify({'success': False, 'message': msg}), 401
             flash(msg, 'error')
-            return redirect(url_for('login_auth.login'))
+            return redirect(url_for('login'))
 
         username, user_email, user_organization, hashed_password, is_verified = user
 
@@ -181,7 +185,7 @@ def login_submit():
                     'email': user_email
                 }), 403
             flash(msg, 'warning')
-            return redirect(url_for('login_auth.login'))
+            return redirect(url_for('login'))
 
         if not check_password_hash(hashed_password, password):
             cursor.close(); mycon.close()
@@ -190,7 +194,7 @@ def login_submit():
             if request.is_json:
                 return jsonify({'success': False, 'message': msg}), 401
             flash(msg, 'error')
-            return redirect(url_for('login_auth.login'))
+            return redirect(url_for('login'))
 
         # Increment login_count if column exists
         try:
@@ -231,14 +235,14 @@ def login_submit():
         if request.is_json:
             return jsonify({'success': False, 'message': msg}), 500
         flash(msg, 'error')
-        return redirect(url_for('login_auth.login'))
+        return redirect(url_for('login'))
 
 
 # ======= SIGNUP SUBMIT =======
-@login_auth.route('/signup/submit', methods=['GET', 'POST'])
+@path.route('/signup/submit', methods=['GET', 'POST'])
 def signup_submit():
     if request.method == 'GET':
-        return redirect(url_for('login_auth.login'))
+        return redirect(url_for('login'))
 
     try: 
         data = request.get_json() if request.is_json else request.form
@@ -254,14 +258,14 @@ def signup_submit():
             if request.is_json:
                 return jsonify({'success': False, 'message': msg}), 400
             flash(msg, 'error')
-            return redirect(url_for('login_auth.login'))
+            return redirect(url_for('login'))
 
         if len(password) < 6:
             msg = 'Password length must be at least 6 characters.'
             if request.is_json:
                 return jsonify({'success': False, 'message': msg}), 400
             flash(msg, 'error')
-            return redirect(url_for('login_auth.login'))
+            return redirect(url_for('login'))
         
         myconn = dbConn()
         cursor = myconn.cursor()
@@ -283,7 +287,7 @@ def signup_submit():
                 if request.is_json:
                     return jsonify({'success': False, 'message': msg}), 409
                 flash(msg, 'error')
-                return redirect(url_for('login_auth.login'))
+                return redirect(url_for('login'))
             else:
                 print(f"[INFO] Updating unverified existing user record: {email}")
                 cursor.execute("""
@@ -315,7 +319,7 @@ def signup_submit():
                 if request.is_json:
                     return jsonify({'success': True, 'message': msg, 'requires_otp': True}), 200
                 flash(msg, 'info')
-                return redirect(url_for('login_auth.login'))
+                return redirect(url_for('login'))
 
         cursor.execute("""INSERT INTO login_data (email, username, organization, password, is_verified, created_at)
                 VALUES(%s, %s, %s, %s, false, NOW())""",
@@ -350,7 +354,7 @@ def signup_submit():
             return jsonify({'success': True, 'message': msg, 'requires_otp': True}), 201
             
         flash(msg, 'success')
-        return redirect(url_for('login_auth.login'))
+        return redirect(url_for('login'))
 
     except Exception as e:
         print(f"❌ Signup error: {e}")
@@ -359,19 +363,19 @@ def signup_submit():
         if request.is_json:
             return jsonify({'success': False, 'message': msg}), 500
         flash(msg, 'error')
-        return redirect(url_for('login_auth.login'))
+        return redirect(url_for('login'))
 
 
 # ======= LOGOUT HANDLE =======
-@login_auth.route('/logout', methods=['GET', 'POST'])
+@path.route('/logout', methods=['GET', 'POST'])
 def logout():
     print(f"Logout -> {session.get('username', 'Unknown')}")
     session.clear()
-    return redirect(url_for('login_auth.login'))
+    return redirect(url_for('login'))
 
 
 # ======= OTP RESEND =======
-@login_auth.route('/resend_otp', methods=['POST'])
+@path.route('/resend_otp', methods=['POST'])
 def resend_otp():
     try:
         data = request.get_json() if request.is_json else request.form
@@ -384,7 +388,7 @@ def resend_otp():
             if request.is_json:
                 return jsonify({'success': False, 'message': msg}), 400
             flash(msg, 'error')
-            return redirect(url_for('login_auth.login'))
+            return redirect(url_for('login'))
 
         otp = f"{secrets.randbelow(1_000_000):06d}"
         hash_otp = generate_password_hash(otp)
@@ -415,7 +419,7 @@ def resend_otp():
                 return jsonify({'success': False, 'message': msg}), 500
             flash(msg, 'error')
 
-        return redirect(url_for('login_auth.login'))
+        return redirect(url_for('login'))
 
     except Exception as e:
         print(f"❌ Resend OTP error: {e}")
@@ -424,4 +428,4 @@ def resend_otp():
         if request.is_json:
             return jsonify({'success': False, 'message': msg}), 500
         flash(msg, 'error')
-        return redirect(url_for('login_auth.login'))
+        return redirect(url_for('login'))
