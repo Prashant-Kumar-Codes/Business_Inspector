@@ -41,13 +41,16 @@
 #     return app
 
 
+import os
+
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 from dotenv import load_dotenv
 
 from app.config.config import Config
-from app.config.config import STATIC_FILES_DIR
+from app.config.config import STATIC_FILES_DIR, settings
 
 load_dotenv()
 
@@ -59,6 +62,13 @@ def create_app():
     app.mount('/static',
               StaticFiles(directory=STATIC_FILES_DIR),
               name='static' )
+
+    app.add_middleware(
+        SessionMiddleware,
+        secret_key=settings.SECRET_KEY,
+        same_site='lax',
+        https_only=os.getenv('FASTAPI_ENV') == 'production',
+    )
     
     app.add_middleware(
         CORSMiddleware,
@@ -79,10 +89,10 @@ def create_app():
     # Register routes
     from app.routes.auth_home import home_route
     from app.routes.auth_inspect import inspect_route
-    # from app.routes.login_signup.auth_login import login_route
+    from app.routes.login_signup.auth_login import login_route
     
     app.include_router(home_route)
     app.include_router(inspect_route)
-    # app.include_route(login_route)
+    app.include_router(login_route)
     
     return app

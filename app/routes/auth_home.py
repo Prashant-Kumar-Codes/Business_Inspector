@@ -7,6 +7,6 @@ home_template = Jinja2Templates(directory='app/templates')
 @home_route.get('/')
 def homepage(request: Request):
     return home_template.TemplateResponse(
-        'homepage.html',
-        {'request': request}
+        request=request,
+        name='homepage.html'
     )

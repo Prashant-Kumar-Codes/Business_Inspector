@@ -27,8 +27,10 @@
             <a href="#tools">Tech Stack</a>
             <a href="#features">Features</a>
             <a href="{{ url_for('inspect') }}">Inspect</a>
-            {% if session.username or session.user_email %}
-                <a href="{{ url_for('logout') }}" class="nav-cta">Logout</a>
+            {% if request.session.get('username') or request.session.get('user_email') %}
+                <form action="{{ url_for('logout') }}" method="post">
+                    <button type="submit" class="nav-cta">Logout</button>
+                </form>
             {% else %}
                 <a href="{{ url_for('login') }}" class="nav-cta">Login</a>
             {% endif %}

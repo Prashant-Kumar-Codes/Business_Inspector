@@ -1,12 +1,16 @@
-from ..extensions import mail, Message
+from app.logger.logger import logger
+from app.mail.mail import mail
+from fastapi_mail import MessageSchema, MessageType
 
-def send_otp_email(email, otp, username):
-    print(f"📧 Sending OTP email → {email} (user: {username})")
 
-    msg = Message(
-        subject    = "Your OTP for Business Inspector Verification",
-        recipients = [email],
-        html       = f"""
+async def send_otp_email(email, otp, username):
+  logger.info('Sending OTP email to %s', email)
+
+  msg = MessageSchema(
+    subject='Your OTP for Business Inspector Verification',
+    recipients=[email],
+    subtype=MessageType.html,
+    body=f"""
 <html>
 <head>
   <style>
@@ -75,6 +79,6 @@ def send_otp_email(email, otp, username):
   </div>
 </body>
 </html>"""
-    )
-    mail.send(msg)
-    print(f"[OK] OTP email dispatched -> {email}")
+  )
+  await mail.send_message(msg)
+  logger.info('OTP email dispatched to %s', email)

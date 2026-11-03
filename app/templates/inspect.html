@@ -23,9 +23,11 @@
             </a>
             <div class="nav-links" id="nav-links">
                 <a href="{{ url_for('homepage') }}">Home</a>
-                <a href="{{ url_for('inspect', username=session.username or 'guest') }}" class="active">Inspect</a>
-                {% if session.username or session.user_email %}
-                    <a href="{{ url_for('logout') }}" class="nav-cta">Logout</a>
+                <a href="{{ url_for('inspect') }}" class="active">Inspect</a>
+                {% if request.session.get('username') or request.session.get('user_email') %}
+                    <form action="{{ url_for('logout') }}" method="post">
+                        <button type="submit" class="nav-cta">Logout</button>
+                    </form>
                 {% else %}
                     <a href="{{ url_for('login') }}" class="nav-cta">Login</a>
                 {% endif %}
